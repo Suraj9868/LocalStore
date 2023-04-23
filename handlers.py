@@ -161,7 +161,7 @@ def cancel(update: Update, context: CallbackContext) -> int:
 def business_details(update, context):
     bot = context.bot
     chat_id = update.message.chat.id
-    data = update.message.text.split(',')
+    data = update.message.text.split(';')
     if len(data) < 4 or len(data) > 4:
         bot.send_message(
             chat_id=chat_id,
@@ -428,7 +428,7 @@ def show_products(update, context):
             [
                 InlineKeyboardButton(
                     text="Contact business owner",
-                    callback_data="contact;" + product["data"]["sme"]
+                    callback_data="contact;" + product["ref"].id()
                 )
             ]
         ]
@@ -438,6 +438,11 @@ def show_products(update, context):
             caption=f"{product['data']['name']} \nDescription: {product['data']['description']}\nPrice:{product['data']['price']}",
             reply_markup=InlineKeyboardMarkup(button)
         )
+        # bot.send_contact(
+        #     chat_id=product['sme_chat_id'],
+        #     phone_number=context.user_data['user-data']['telephone'],
+        #     first_name=context.user_data['user-data']['name']
+        # )
     return POST_VIEW_PRODUCTS
 
 def post_view_products(update, context):
@@ -448,7 +453,7 @@ def post_view_products(update, context):
         q.get(
             q.ref(
                 q.collection("Product"),
-                data.split(',')[1]
+                data.split(';')[1]
             )
         )
     )["data"]

@@ -5,6 +5,8 @@ from telegram.ext import (
     Filters, Updater, CallbackQueryHandler
 )
 from config import TOKEN
+
+
 updater = Updater(token=TOKEN, use_context=True)
 print(updater)
 dispatcher = updater.dispatcher
@@ -14,7 +16,7 @@ def main():
     conv_handler = ConversationHandler(
         entry_points=[CommandHandler('start', handlers.start)],
         states={
-            handlers.CHOOSING: [    
+            handlers.CHOOSING: [
                 MessageHandler(
                     Filters.all, handlers.choose
                 )
