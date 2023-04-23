@@ -37,11 +37,10 @@ def start(update, context: CallbackContext) -> int:
     chat_id = update.message.chat.id
     bot.send_message(
         chat_id=chat_id,
-        text= "Hi fellow, Welcome to SMEbot ,"
-        "Please tell me about yourself, "
+        text= "Welcome to bot ,"
         "provide your full name, email, and phone number, "
         "separated by comma each e.g: "
-        "John Doe, JohnD@gmail.com, +234567897809"
+        "Suraj Prakash, SurajPa@gmail.com, +919876543211"
     )
     return CHOOSING
     
@@ -114,9 +113,9 @@ def classer(update, context):
         bot.send_message(
             chat_id=chat_id,
             text=f"Great! {name}, please tell me about your business, "
-            "provide your BrandName, Brand email, Address, and phone number"
+            "provide your ShopName, Shop email, Address, and phone number"
             "in that order, each separated by comma(,) each e.g: "
-            "JDWears, JDWears@gmail.com, 101-Mike Avenue-Ikeja, +234567897809",
+            "Patra Grocery, Pgrocery@gmail.com, 16-prasanti VIhar, +919876543210",
             reply_markup=ReplyKeyboardRemove()
         )
 
@@ -124,21 +123,21 @@ def classer(update, context):
     categories = [  
         [
             InlineKeyboardButton(
-                text="Clothing/Fashion",
+                text="Snacks",
                 callback_data="Clothing/Fashion"
             ),
             InlineKeyboardButton(
-                text="Hardware Accessories",
+                text="Eggs/Grocery",
                 callback_data="Hardware Accessories"
             )
         ],
         [
             InlineKeyboardButton(
-                text="Food/Kitchen Ware",
+                text="Beverages",
                 callback_data="Food/Kitchen Ware"
             ),
             InlineKeyboardButton(
-                text="ArtnDesign",
+                text="Foodgrains",
                 callback_data="ArtnDesign"
             )
         ]
@@ -161,7 +160,7 @@ def cancel(update: Update, context: CallbackContext) -> int:
 def business_details(update, context):
     bot = context.bot
     chat_id = update.message.chat.id
-    data = update.message.text.split(';')
+    data = update.message.text.split(',')
     if len(data) < 4 or len(data) > 4:
         bot.send_message(
             chat_id=chat_id,
@@ -178,21 +177,21 @@ def business_details(update, context):
     categories = [  
         [
             InlineKeyboardButton(
-                text="Clothing/Fashion",
+                text="Snacks",
                 callback_data="Clothing/Fashion"
             ),
             InlineKeyboardButton(
-                text="Hardware Accessories",
+                text="Eggs/Meat",
                 callback_data="Hardware Accessories"
             )
         ],
         [
             InlineKeyboardButton(
-                text="Food/Kitchen Ware",
+                text="Beverages",
                 callback_data="Food/Kitchen Ware"
             ),
             InlineKeyboardButton(
-                text="ArtnDesign",
+                text="Foodgrains",
                 callback_data="ArtnDesign"
             )
         ]
@@ -323,12 +322,6 @@ def customer_pref(update, context):
                         text="View Products",
                         callback_data=sme["data"]["name"]
                     )
-                ],
-                [
-                    InlineKeyboardButton(
-                        text="Select for updates",
-                        callback_data="pref"+','+sme["data"]["name"]
-                    )
                 ]
             ]
             if "latest" in sme['data'].keys():
@@ -388,7 +381,7 @@ def show_products(update, context):
         button = [
             [
                 InlineKeyboardButton(
-                    text="Vieew more businesses category",
+                    text="View more businesses category",
                     callback_data='customer'
                 )
             ]
@@ -438,11 +431,6 @@ def show_products(update, context):
             caption=f"{product['data']['name']} \nDescription: {product['data']['description']}\nPrice:{product['data']['price']}",
             reply_markup=InlineKeyboardMarkup(button)
         )
-        # bot.send_contact(
-        #     chat_id=product['sme_chat_id'],
-        #     phone_number=context.user_data['user-data']['telephone'],
-        #     first_name=context.user_data['user-data']['name']
-        # )
     return POST_VIEW_PRODUCTS
 
 def post_view_products(update, context):
@@ -490,6 +478,3 @@ def post_view_products(update, context):
             chat_id=chat_id,
             text=f"Name: {sme_['name']}\n\nTelephone: {sme_['telephone']}\n\nEmail:{sme_['email']}"
         )
-
-
-
